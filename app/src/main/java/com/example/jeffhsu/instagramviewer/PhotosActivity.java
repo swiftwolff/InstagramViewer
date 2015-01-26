@@ -32,7 +32,7 @@ public class PhotosActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos);
-
+        fetchTimelineAsync(0);
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -91,6 +91,15 @@ public class PhotosActivity extends Activity {
                         if(!photoJSON.isNull("caption")){
                             if (photoJSON.getJSONObject("caption")!=null && photoJSON.getJSONObject("caption").getString("text")!=null){
                                 photo.caption = photoJSON.getJSONObject("caption").getString("text");
+                            }
+                        }
+                        if(!photoJSON.isNull("comments")){
+                            if (photoJSON.getJSONObject("comments").getJSONArray("data")!=null && photoJSON.getJSONObject("comments").getJSONArray("data").length()!=0){
+                                JSONArray data = photoJSON.getJSONObject("comments").getJSONArray("data");
+                                photo.commentUser = data.getJSONObject(data.length()-1).getJSONObject("from").getString("username");
+                                photo.userComment = data.getJSONObject(data.length()-1).getString("text");
+                                Log.i("DEBUG","comment user is :"+photo.commentUser);
+                                Log.i("DEBUG","user comment is :"+photo.userComment);
                             }
                         }
                         photo.imageProfileUrl = photoJSON.getJSONObject("user").getString("profile_picture");

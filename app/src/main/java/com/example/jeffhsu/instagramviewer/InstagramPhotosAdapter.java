@@ -51,6 +51,14 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
 
             //Lookup like elements
             TextView tvLike = (TextView) convertView.findViewById(R.id.tvLikes);
+
+            //Lookup comment user
+            TextView tvCommentUser = (TextView) convertView.findViewById(R.id.tvCommentUser);
+            TextView tvUserComment = (TextView) convertView.findViewById(R.id.tvUserComment);
+
+            //Populate comments
+            tvCommentUser.setText(photo.commentUser+": ");
+            tvUserComment.setText(photo.userComment);
             //Populate profile elements
             tvProfile.setText(photo.username);
             imgProfile.setImageResource(0);
