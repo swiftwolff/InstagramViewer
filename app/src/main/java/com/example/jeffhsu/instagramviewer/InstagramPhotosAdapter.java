@@ -1,6 +1,7 @@
 package com.example.jeffhsu.instagramviewer;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.makeramen.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +44,23 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
             //Lookup subview within the template
             TextView tvCaption = (TextView) convertView.findViewById(R.id.tvCaption);
             ImageView imgPhoto = (ImageView) convertView.findViewById(R.id.imgPhoto);
+
+            //Lookup profile elements
+            TextView tvProfile = (TextView) convertView.findViewById(R.id.tvProfile);
+            ImageView imgProfile = (ImageView) convertView.findViewById(R.id.imgProfile);
+
+            //Lookup like elements
+            TextView tvLike = (TextView) convertView.findViewById(R.id.tvLikes);
+            //Populate profile elements
+            tvProfile.setText(photo.username);
+            imgProfile.setImageResource(0);
+
+            //Populate likes count
+            tvLike.setText(photo.likesCount + " likes");
+
+            Picasso.with(getContext()).load(photo.imageProfileUrl).transform(new CircleTransform()).into(imgProfile);
+//            Picasso.with(getContext()).load(photo.imageProfileUrl).into(imgProfile);
+
             //Populate the subviews (textfield.imageView) with the correct data
             tvCaption.setText(photo.caption);
             // Set the image height before loading
